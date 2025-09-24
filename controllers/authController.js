@@ -9,7 +9,7 @@ require("dotenv").config();
 
 let SININ= async (req, res) => {
 
-    console.log("hi")
+    // console.log("hi")
 
   try {
     const { username, email, password } = req.body;
@@ -67,4 +67,40 @@ let LOGIN=async (req, res) => {
 }
 
 
-module.exports={LOGIN,SININ}
+
+let Reset=async (req, res) => {
+  try {
+    const { email, password, newpassword } = req.body;
+
+    let user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User Not Found, Please Signup" });
+    }
+
+    const isMatc = await bcrypt.compare(password, user.password);
+    if (!isMatc) {
+      return res.status(403).json({ message: "Wrong Current Password" });
+    }
+
+    const hashed = await bcrypt.hash(newpassword, saltRounds);
+
+    // console.log(user)
+
+    user.password = hashed;
+
+    // console.log(user)
+    
+    await user.save();
+
+    return res.status(200).json({ message: "Password Changed Successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+
+
+
+
+module.exports={LOGIN,SININ,Reset}

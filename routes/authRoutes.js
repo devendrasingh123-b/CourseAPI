@@ -2,7 +2,7 @@ const express=require("express");
 var jwt = require('jsonwebtoken');
 const bcrypt = require("bcryptjs");
 const UserModel = require("../model/User");
-const { LOGIN, SININ } = require("../controllers/authController");
+const { LOGIN, SININ, Reset } = require("../controllers/authController");
 const saltRounds = 9;
 require("dotenv").config();
 
@@ -19,6 +19,8 @@ UserRouter.post("/signup", SININ);
 UserRouter.post("/login", LOGIN);
 
 
+
+UserRouter.post("/reset",Reset)
 
 
 
