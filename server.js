@@ -27,9 +27,10 @@ app.use((req,res)=>{
     res.status(404).json({msg:"File not Found"})
 })
 
-
+// console.log(process.env.SECRET-KEY)
 // console.log(process.env.NAME)
 
 app.listen(process.env.PORT,()=>{
     console.log("server is On")
 })
+
